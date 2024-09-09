@@ -1,5 +1,6 @@
 package model;
 
+import structures.NodeCrop;
 import structures.SimpleLinkedListCrop;
 
 public class Chest {
@@ -8,14 +9,12 @@ public class Chest {
     private int currentCapacity;
     private String order;
     private boolean isOrder;
-
     private SimpleLinkedListCrop crop;
 
-    public Chest(String code) {
-        this.code = code;
+    public Chest(String id ) {
+        this.code =id;
         this.crop = new SimpleLinkedListCrop();
-        this.currentCapacity=0;
-
+        this.currentCapacity = 0;
     }
 
     public boolean isFull() {
@@ -23,19 +22,22 @@ public class Chest {
     }
 
     public boolean addCrop(Crop cultivo) {
-        if (currentCapacity + cultivo.getCantidad() <= MAX_CAPACITY) {
-            NodeCrop existingNode = cultivos.search(cultivo.getTipo());
-
-            if (existingNode != null) {
-                existingNode.getValue().stack(cultivo); // Apilar el cultivo existente
+        if (currentCapacity < MAX_CAPACITY) {
+            // Buscar si el cultivo ya existe en el cofre
+            NodeCrop existingCrop = crop.search(cultivo.getName());
+            
+            if (existingCrop != null) {
+                // Si ya existe un cultivo con el mismo nombre, apilamos o mostramos mensaje
+                System.out.println("El cultivo " + cultivo.getName() + " ya existe y se ha apilado.");
+                return false;  // No lo añadimos de nuevo, sólo apilamos
             } else {
-                cultivos.add(cultivo.getTipo(), cultivo); // Añadir nuevo cultivo
+                // Si no existe, añadimos el nuevo cultivo
+                crop.add(cultivo.getName(), cultivo);
+                currentCapacity++;  // Incrementamos la capacidad ocupada
+                return true;
             }
-
-            currentCapacity += cultivo.getCantidad();
-            return true;
         } else {
-            return false; // No se puede añadir más, el cofre está lleno
+            return false;  // Cofre lleno
         }
     }
 
@@ -47,6 +49,13 @@ public class Chest {
         this.code = code;
     }
 
+    public int getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    public void setCurrentCapacity(int currentCapacity) {
+        this.currentCapacity = currentCapacity;
+    }
 
     public String getOrder() {
         return order;
@@ -56,13 +65,13 @@ public class Chest {
         this.order = order;
     }
 
-    public boolean isOrder() {
+    public boolean isIsOrder() {
         return isOrder;
     }
 
-    public void setOrder(boolean order) {
-        isOrder = order;
+    public void setIsOrder(boolean isOrder) {
+        this.isOrder = isOrder;
     }
 
-
+    
 }

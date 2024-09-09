@@ -51,4 +51,8 @@ public class Crop {
         return days;
     }*/
 
+    public int getQuantity() {
+        return quantity;
+    }
+
 }

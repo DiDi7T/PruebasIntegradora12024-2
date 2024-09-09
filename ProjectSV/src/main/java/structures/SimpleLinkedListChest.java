@@ -15,7 +15,7 @@ public class SimpleLinkedListChest {
         if (first == null) {
             first = node;
         } else {
-            NodeChest current = first.getNext();
+            NodeChest current = first;
             while (current.getNext() != null) {
                 current = current.getNext();
             }
@@ -32,5 +32,11 @@ public class SimpleLinkedListChest {
         }
         return size;
     }
+
+    public NodeChest getFirst() {
+        return first;
+    }
+
+   
 
 }
